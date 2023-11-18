@@ -1,4 +1,5 @@
-export default function mapCustomQuery(inputQuery: string): string {
+export default function mapCustomQuery(inputQuery: string) {
+    let Table: string = "";
     const keywordMap: { [key: string]: string } = {
         pick: 'SELECT',
         fetch: 'SELECT',
@@ -45,11 +46,17 @@ export default function mapCustomQuery(inputQuery: string): string {
         .map((word) => {
             const keyword = word.toLowerCase();
             const sqlKeyword = keywordMap[keyword];
+            if (keyword === "youtube" || keyword === "spotify") {
+                Table = keyword as string
+                console.log(Table)
+
+            }
             return sqlKeyword ? sqlKeyword : word;
         })
         .join(' ');
 
-    return processedQuery;
+
+    return { Table: Table, data: processedQuery };
 
 }
 

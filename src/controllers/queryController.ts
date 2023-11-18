@@ -13,16 +13,18 @@ export class QueryController {
       code: 403,
       message: "query not found"
     }
-    console.log("query", query)
     try {
 
 
-      const queryResult = await db.query(query);
+      const queryResult = await db.query(query.data);
 
       console.log(queryResult)
       return {
         code: 200,
-        data: queryResult
+        data: {
+          Table: query.Table,
+          data: queryResult
+        }
       }
     } catch (error) {
       throw {

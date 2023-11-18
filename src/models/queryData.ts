@@ -21,8 +21,12 @@ interface youtubeData {
     Licensed: number;
     official_video: string;
 }
+interface data {
+    Table: string;
+    data: shopifyData[] | youtubeData[];
+}
 
 interface queryResponse {
     code: number;
-    data: shopifyData[] | youtubeData[] | string
+    data: data
 }
