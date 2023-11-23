@@ -13,12 +13,16 @@ const pool = mysql.createPool({
 // const db = async () => {
 //     try {
 export default {
-    query: async (text: string, _params?: any[]) => {
+    query: async (text: string, params?: any[], limit?: number, offset?: number) => {
         const connection = await pool.getConnection();
         try {
-            const [rows] = await connection.query(text);
-            console.log(rows)
-            return rows;
+            if (limit !== undefined && offset !== undefined) {
+                const [rows] = await connection.query(text + ' LIMIT ?, ?', [...(params || []), offset, limit]);
+                return rows;
+            } else {
+                const [rows] = await connection.query(text, params);
+                return rows;
+            }
         } finally {
             connection.release();
         }

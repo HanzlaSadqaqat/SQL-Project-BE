@@ -3,11 +3,12 @@ import mapCustomQuery from "../DB/mapCustomQuery";
 
 export class QueryController {
   async queryData(body) {
-    console.log("controller", body)
     if (body.query === "") throw {
       code: 400,
       message: "query not found"
     }
+    const offset = (body.page - 1) * body.pageSize;
+    const limit = body.pageSize;
     const query = mapCustomQuery(body.query);
     if (!query) throw {
       code: 403,
@@ -16,7 +17,8 @@ export class QueryController {
     try {
 
 
-      const queryResult = await db.query(query.data);
+      const queryResult = await db.query(query.data, [], limit, offset);
+
 
       console.log(queryResult)
       return {
